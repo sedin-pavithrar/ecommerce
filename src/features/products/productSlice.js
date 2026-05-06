@@ -13,6 +13,7 @@ const productSlice = createSlice({
         error:null,
         searchText:"",
         selectedCategory:"all",
+        viewMode:"grid",
     },
         reducers:{
              setSearchText:(state,action)=>{
@@ -21,6 +22,9 @@ const productSlice = createSlice({
             setSelectedCategory:(state,action)=>{
                 state.selectedCategory = action.payload;
             },
+            toggleViewMode:(state)=>{
+                state.viewMode = state.viewMode ==="grid"?"list":"grid";
+            }
         },
         extraReducers:(builder)=>{
             builder
@@ -39,5 +43,5 @@ const productSlice = createSlice({
            
         },
 });
-export const{setSearchText,setSelectedCategory,}=productSlice.actions;
+export const{setSearchText,setSelectedCategory,toggleViewMode}=productSlice.actions;
 export default productSlice.reducer;

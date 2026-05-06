@@ -11,6 +11,7 @@ function ProductList(){
         error,
         searchText,
         selectedCategory,
+        viewMode,
 
     } = useSelector((state)=>state.products);
     useEffect(()=>{
@@ -32,17 +33,17 @@ function ProductList(){
         return <div>{error}</div>;
     }
     
-
     return(
         
         <div>
             <h2>Products</h2>
             <ProductFilters/>
-            <div className="product-grid">
+            <div className={`product-grid ${viewMode}`}>
             {filteredProducts.map((product)=>(
                 <ProductCard 
                 key={product.id} 
                 product={product} 
+                viewMode={viewMode}
                 />
             ))}
             </div>

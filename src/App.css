@@ -35,3 +35,33 @@ body{
   color: gray;
   font-size: 14px;
 }
+.product-grid.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.product-grid.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-card.list {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.product-card.list img {
+  width: 120px;
+  height: 120px;
+}
+
+.filters button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: black;
+  color: white;
+}

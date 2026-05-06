@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setSearchText,
   setSelectedCategory,
+  toggleViewMode,
 } from "./productSlice";
 
 function ProductFilters() {
   const dispatch = useDispatch();
 
-  const {items,searchText,selectedCategory,} = useSelector((state) => state.products);
+  const {items,searchText,selectedCategory,viewMode} = useSelector((state) => state.products);
 
   const categories = [
     "all",
@@ -41,6 +42,9 @@ function ProductFilters() {
           </option>
         ))}
       </select>
+      <button onClick={() => dispatch(toggleViewMode())}>
+        {viewMode === "grid" ? "List View" : "Grid View"}
+      </button>
     </div>
   );
 }
