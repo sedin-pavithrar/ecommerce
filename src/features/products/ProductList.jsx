@@ -55,7 +55,7 @@ const loaderRef = useInfiniteScroll(loadMore, hasMore);
             <h2>Products</h2>
             <ProductFilters/>
             <div className={`product-grid ${viewMode}`}>
-            {filteredProducts.map((product)=>(
+            {visibleProducts.map((product)=>(
                 <ProductCard 
                 key={product.id} 
                 product={product} 
@@ -63,6 +63,11 @@ const loaderRef = useInfiniteScroll(loadMore, hasMore);
                 />
             ))}
             </div>
+            {hasMore && (
+                <div ref={loaderRef} className="loading-sentinel">
+                    {loading ? "Loading more..." : "Scroll for more"}
+                </div>
+            )}
         </div>
     );
 
