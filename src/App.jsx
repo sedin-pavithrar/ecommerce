@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import './App.css'
-import ProductList from './features/products/ProductList'
 import {Routes,Route} from "react-router-dom";
 import HomePage from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';

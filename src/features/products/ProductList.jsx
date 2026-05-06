@@ -17,12 +17,16 @@ function ProductList(){
 
     } = useSelector((state)=>state.products);
     const [visibleCount, setVisibleCount] = useState(6);
+    const [prevFilters, setPrevFilters] = useState({ searchText, selectedCategory });
+
+    if (prevFilters.searchText !== searchText || prevFilters.selectedCategory !== selectedCategory) {
+        setPrevFilters({ searchText, selectedCategory });
+        setVisibleCount(6);
+    }
+
     useEffect(()=>{
         dispatch(fetchProducts());
     },[dispatch]);
-     useEffect(() => {
-    setVisibleCount(6);
-  }, [searchText, selectedCategory]);
 
     const filteredProducts = useMemo(() => {
         return items.filter((product) => {
