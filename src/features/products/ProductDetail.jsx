@@ -1,52 +1,59 @@
+
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "./productThunks";
+import { addToCart } from "../cart/cartSlice";
+import StockBadge from "../../components/StockBadge";
 
 function ProductDetail() {
   const { id } = useParams();
+  const dispatch = useDispatch();
 
-  const { items } = useSelector(
-    (state) => state.products
-  );
+  const { items, loading } = useSelector((state) => state.products);
 
-  const product = items.find(
-    (item) => item.id === Number(id)
-  );
+  const product = items.find((item) => item.id === Number(id));
 
-  if (!product) {
-    return <h2>Product not found</h2>;
+  useEffect(() => {
+    if (items.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch, items.length]);
+
+  if (loading || !product) {
+    return <p className="center">Loading product...</p>;
   }
 
   return (
-    <div className="detail-page">
-      <Link to="/">← Back</Link>
+    <main className="container detail-page">
+      <Link to="/">← Back to Products</Link>
 
       <div className="detail-card">
-        <img
-          src={product.image}
-          alt={product.title}
-        />
+        <img src={product.image} alt={product.title} />
 
         <div>
           <h2>{product.title}</h2>
 
+          <p className="category">{product.category}</p>
+
           <p>{product.description}</p>
 
-          <h3>₹{product.price}</h3>
+          <h3>₹{product.price.toFixed(2)}</h3>
 
-          <p>
-            Category: {product.category}
-          </p>
+          <p>Rating: {product.rating?.rate}</p>
 
-          <p>
-            Rating: {product.rating.rate}
-          </p>
+          <StockBadge stock={product.stock} />
 
-          <p>
-            Stock: {product.stock}
-          </p>
+          <br />
+
+          <button
+            disabled={product.stock === 0}
+            onClick={() => dispatch(addToCart(product))}>
+            {product.stock === 0 ? "Unavailable" : "Add to Cart"}
+          </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
