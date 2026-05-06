@@ -2,14 +2,26 @@ import {createSlice} from "@reduxjs/toolkit";
 
 import {fetchProducts} from "./productThunks";
 
+
+
+
 const productSlice = createSlice({
     name:"products",
     initialState:{
         items:[],
         loading:false,
         error:null,
+        searchText:"",
+        selectedCategory:"all",
     },
-        reducers:{},
+        reducers:{
+             setSearchText:(state,action)=>{
+                state.searchText = action.payload;
+            },
+            setSelectedCategory:(state,action)=>{
+                state.selectedCategory = action.payload;
+            },
+        },
         extraReducers:(builder)=>{
             builder
             .addCase(fetchProducts.pending,(state)=>{
@@ -24,8 +36,8 @@ const productSlice = createSlice({
                 state.loading = false;
                 state.error = "Failed to fetch products";
             });
-            
+           
         },
 });
-
+export const{setSearchText,setSelectedCategory,}=productSlice.actions;
 export default productSlice.reducer;
