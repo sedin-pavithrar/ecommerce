@@ -70,3 +70,23 @@ body{
   padding: 20px;
   font-weight: bold;
 }
+
+.detail-page {
+  padding: 20px;
+}
+
+.detail-card {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-card img {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
