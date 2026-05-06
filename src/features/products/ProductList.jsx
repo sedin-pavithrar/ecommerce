@@ -1,12 +1,14 @@
-import { useEffect,useMemo } from "react";
+import { useEffect,useMemo , useState , useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "./productThunks";
 import ProductCard from "./ProductCard";
 import ProductFilters from "./ProductFilters";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
 
 function ProductList(){
     const dispatch = useDispatch();
-    const {items,
+    const {
+        items,
         loading,
         error,
         searchText,
@@ -14,9 +16,13 @@ function ProductList(){
         viewMode,
 
     } = useSelector((state)=>state.products);
+    const [visibleCount, setVisibleCount] = useState(6);
     useEffect(()=>{
         dispatch(fetchProducts());
     },[dispatch]);
+     useEffect(() => {
+    setVisibleCount(6);
+  }, [searchText, selectedCategory]);
 
     const filteredProducts = useMemo(() => {
         return items.filter((product) => {
@@ -24,7 +30,17 @@ function ProductList(){
             const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
             return matchesSearch && matchesCategory;
         });
-    }, [items, searchText, selectedCategory]);
+    }, [items, searchText, selectedCategory]); 
+
+    const visibleProducts = filteredProducts.slice(0, visibleCount);
+
+const hasMore = visibleCount < filteredProducts.length;
+
+const loadMore = useCallback(() => {
+  setVisibleCount((prev) => prev + 4);
+}, []);
+
+const loaderRef = useInfiniteScroll(loadMore, hasMore);
 
     if(loading){
         return <div>Loading...</div>;
